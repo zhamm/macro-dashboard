@@ -1,0 +1,7 @@
+<?php
+
+//https://fredaccount.stlouisfed.org/apikey
+//https://www.alphavantage.co/support/#api-key
+
+define('FRED_API_KEY', 'ADD_YOURS_HERE');
+define('ALPHA_VANTAGE_KEY', 'ADD_YOURS_HERE');
