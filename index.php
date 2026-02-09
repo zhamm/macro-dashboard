@@ -165,7 +165,7 @@ $indicators = [
     ],
     'CHINA_PMI' => [
         'name'=>'China Manufacturing PMI','current'=>48.5,
-        'threshold_caution'=>45,'threshold_fear'=>40,'threshold_crisis'=>35,
+        'threshold_caution'=>50,'threshold_fear'=>45,'threshold_crisis'=>40,
         'freq'=>'Monthly','desc'=>'Global Demand'
     ],
     'VIX' => [
@@ -180,7 +180,7 @@ $indicators = [
     ],
     'CRE_DELINQUENCY' => [
         'name'=>'CRE Delinquency','current'=>1.57,
-        'threshold_caution'=>3,'threshold_fear'=>7.29,'threshold_crisis'=>10,
+        'threshold_caution'=>2,'threshold_fear'=>3,'threshold_crisis'=>5,
         'freq'=>'Quarterly','desc'=>'Commercial Property Stress'
     ],
     'FED_FUNDS' => [
@@ -191,7 +191,7 @@ $indicators = [
     'BUF_FITZ' => [
         'name'=>'Buffett Indicator','current'=>221,
         'threshold_caution'=>150,'threshold_fear'=>200,'threshold_crisis'=>250,
-        'freq'=>'Quarterly','desc'=>'Market Valuation'
+        'freq'=>'Monthly','desc'=>'Market Valuation'
     ],
 ];
 
@@ -212,13 +212,16 @@ foreach ($indicators as $key => $cfg) {
     $status = 'Green';
 
     if ($key === 'KRE') {
+        // KRE: percentage drop from baseline (lower price = worse)
         $drop = (($cfg['baseline'] - $value) / $cfg['baseline']) * 100;
         if ($drop >= 30) $status = 'Red';
         elseif ($drop >= 20) $status = 'Orange';
-    } elseif ($key === 'CHINA_PMI') {
-        if ($value < $cfg['threshold_fear']) $status = 'Red';
-        elseif ($value < $cfg['threshold_caution']) $status = 'Orange';
+    } elseif (in_array($key, ['JPY_USD', 'FED_FUNDS', 'CHINA_PMI'])) {
+        // Inverse indicators: lower value = worse
+        if ($value <= $cfg['threshold_fear']) $status = 'Red';
+        elseif ($value <= $cfg['threshold_caution']) $status = 'Orange';
     } else {
+        // Standard indicators: higher value = worse
         if ($value >= $cfg['threshold_fear']) $status = 'Red';
         elseif ($value >= $cfg['threshold_caution']) $status = 'Orange';
     }
