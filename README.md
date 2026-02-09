@@ -2,6 +2,8 @@
 
 A PHP-based economic warning dashboard that monitors 10 key macroeconomic indicators in real time to assess systemic market risk. The dashboard uses a traffic-light system (Green / Orange / Red) and recommends portfolio allocation strategies based on how many indicators are flashing red.
 
+![Dashboard screenshot](screenshot.png)
+
 ## What It Does
 
 - **Fetches live data** from FRED (Federal Reserve Economic Data) and Alpha Vantage APIs
